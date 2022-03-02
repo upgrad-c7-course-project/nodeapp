@@ -2,6 +2,8 @@ pipeline {
   environment {
     imagename = "101-docker-images"
     dockerImage = ''
+    appNodeIP = '10.12.2.142'
+    appNodeUser = 'ubuntu'
   }
   agent any
   stages {
@@ -28,10 +30,15 @@ pipeline {
     }
 
 
-    stage('Remove Unused docker image') {
+    stage('deploy to app host') {
       steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-        sh "docker rmi $imagename:latest"
+ 
+        sshagent() {
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'echo hello'"
+        }
+
+        // sh "docker rmi $imagename:$BUILD_NUMBER"
+        // sh "docker rmi $imagename:latest"
 
       }
     }

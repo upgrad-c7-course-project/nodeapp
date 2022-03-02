@@ -3,7 +3,6 @@ pipeline {
     imagename = "101-docker-images"
     dockerImage = ''
     appNodeIP = '10.12.2.142'
-    appNodeUser = 'ubuntu'
   }
   agent any
   stages {
@@ -33,7 +32,7 @@ pipeline {
     stage('deploy to app host') {
       steps{
  
-        sshagent() {
+        sshagent(credentials: ['app.creds']) {
             sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'echo hello'"
         }
 

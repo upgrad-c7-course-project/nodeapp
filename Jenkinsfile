@@ -34,12 +34,12 @@ pipeline {
       steps{
  
         sshagent(credentials: ['nodeapp.ssh.creds']) {
-            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'echo hello'"
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'sudo docker container stop application'"
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'sudo docker container rm application'"
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 969361958776.dkr.ecr.us-east-1.amazonaws.com'"
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'sudo docker pull 969361958776.dkr.ecr.us-east-1.amazonaws.com/101-docker-images:latest'"
+            sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'sudo docker run --name application -d -p 8080:8081 969361958776.dkr.ecr.us-east-1.amazonaws.com/101-docker-images:latest'"
         }
-
-        // sh "docker rmi $imagename:$BUILD_NUMBER"
-        // sh "docker rmi $imagename:latest"
-
       }
     }
   }

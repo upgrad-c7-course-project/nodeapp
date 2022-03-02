@@ -1,0 +1,4 @@
+# Ignore a file or directory in the context root named "node_modules"
+node_modules
+node_modules*
+node_modules/*

@@ -13,19 +13,18 @@ pipeline {
     }
 
     stage('Build and publish image') {
-      steps{
-    
+        steps{
+            script {
+              docker.withRegistry(
+                'https://969361958776.dkr.ecr.us-east-1.amazonaws.com',
+                'ecr:us-east-1:aws.credentials'
+                ) {
 
-        script {
-          docker.withRegistry(
-            'https://969361958776.dkr.ecr.us-east-1.amazonaws.com',
-            'ecr:us-east-1:aws.credentials'
-            ) {
-
-            dockerImage = docker.build('101-docker-images')
-            dockerImage.push('latest')
-          }
-      }
+                dockerImage = docker.build('101-docker-images')
+                dockerImage.push('latest')
+              }
+            }
+        }
     }
 
 

@@ -3,6 +3,7 @@ pipeline {
     imagename = "101-docker-images"
     dockerImage = ''
     appNodeIP = '10.12.2.142'
+    appNodeUser = 'ubuntu'
   }
   agent any
   stages {

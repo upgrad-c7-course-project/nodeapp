@@ -33,7 +33,7 @@ pipeline {
     stage('deploy to app host') {
       steps{
  
-        sshagent(credentials: ['app.creds']) {
+        sshagent(credentials: ['nodeapp.ssh.creds']) {
             sh "ssh -o StrictHostKeyChecking=no -l $appNodeUser $appNodeIP 'echo hello'"
         }
 
